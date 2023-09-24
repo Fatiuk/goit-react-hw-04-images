@@ -12,14 +12,7 @@ const App = () => {
   // Function that sets the state with the dataForm value upon submission.
   const handleSubmit = dataForm => {
     setSearchQuery(dataForm);
-    console.log(dataForm);
   };
-
-  // Check if searchQuery has changed
-  // componentDidUpdate(_, prevState) {
-  //   if (prevState.searchQuery !== this.state.searchQuery) {
-  //   }
-  // }
 
   return (
     <>
