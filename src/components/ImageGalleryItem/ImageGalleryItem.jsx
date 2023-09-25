@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import {
   GalleryItem,
   GalleryImage,
@@ -6,60 +6,63 @@ import {
 } from './ImageGalleryItem.styled';
 import Modal from 'components/Modal/Modal';
 
-const ImageGalleryItem = props => {
-  const [showModal, setShowModal] = useState(false);
-
-  const toggleModal = () => {
-    setShowModal(!showModal);
+export default class ImageGalleryItem extends Component {
+  state = {
+    showModal: false,
   };
 
-  const {
-    image: {
-      webformatURL,
-      largeImageURL,
-      tags,
-      likes,
-      views,
-      comments,
-      downloads,
-    },
-  } = props;
+  toggleModal = () => {
+    this.setState(({ showModal }) => ({
+      showModal: !showModal,
+    }));
+  };
 
-  return (
-    <GalleryItem>
-      <GalleryImage
-        src={webformatURL}
-        alt={tags}
-        loading="lazy"
-        onClick={toggleModal}
-      />
-      <GalleryInfo>
-        <p>
-          <b>&#128077;</b>
-          {likes}
-        </p>
-        <p>
-          <b>&#128064;</b>
-          {views}
-        </p>
-        <p>
-          <b>&#128172;</b>
-          {comments}
-        </p>
-        <p>
-          <b>&#128229;</b>
-          {downloads}
-        </p>
-      </GalleryInfo>
-      {showModal && (
-        <Modal
-          onClose={toggleModal}
-          largeImageURL={largeImageURL}
-          tags={tags}
-        ></Modal>
-      )}
-    </GalleryItem>
-  );
-};
-
-export default ImageGalleryItem;
+  render() {
+    const {
+      image: {
+        webformatURL,
+        largeImageURL,
+        tags,
+        likes,
+        views,
+        comments,
+        downloads,
+      },
+    } = this.props; //   Get image (props) from prev component (ImageGallery.jsx)
+    return (
+      <GalleryItem>
+        <GalleryImage
+          src={webformatURL}
+          alt={tags}
+          loading="lazy"
+          onClick={this.toggleModal}
+        />
+        <GalleryInfo>
+          <p>
+            <b>&#128077;</b>
+            {likes}
+          </p>
+          <p>
+            <b>&#128064;</b>
+            {views}
+          </p>
+          <p>
+            <b>&#128172;</b>
+            {comments}
+          </p>
+          <p>
+            <b>&#128229;</b>
+            {downloads}
+          </p>
+        </GalleryInfo>
+        {this.state.showModal && (
+          <Modal
+            onClose={this.toggleModal}
+            largeImageURL={largeImageURL}
+            tags={tags}
+          ></Modal>
+        )}
+      </GalleryItem>
+    );
+  }
+}

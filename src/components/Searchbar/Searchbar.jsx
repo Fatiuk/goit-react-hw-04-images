@@ -1,5 +1,5 @@
 import Notiflix from 'notiflix';
-import { useState } from 'react';
+import React, { Component } from 'react';
 import {
   SearchbarWrap,
   SearchbarForm,
@@ -8,45 +8,47 @@ import {
   SearchbarInput,
 } from './Searchbar.styled';
 
-const Searchbar = ({ onSubmit }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+export default class Searchbar extends Component {
+  state = {
+    searcQuery: '',
+  };
   // Function that updates the state based on user input
-  const handleChange = event => {
+  handleChange = event => {
     const inputValue = event.target.value;
-    setSearchQuery(inputValue);
+    this.setState({ searcQuery: inputValue });
   };
   // Function that passes the state to the App.jsx
-  const handleSubmit = event => {
+  handleSubmit = event => {
     event.preventDefault();
-    if (!searchQuery.trim()) {
+    if (!this.state.searcQuery.trim()) {
       return Notiflix.Report.failure(
         'PixQuery Failure',
         'Please enter a keyword or phrase to search for photos. We will do our best to find suitable images for you.',
         'Okay'
       );
     }
-    onSubmit(searchQuery);
+    this.props.onSubmit(this.state.searcQuery);
   };
 
-  return (
-    <SearchbarWrap>
-      <SearchbarForm onSubmit={handleSubmit}>
-        <SearchbarButton type="submit">
-          <SearchbarSpan></SearchbarSpan>
-        </SearchbarButton>
+  render() {
+    return (
+      <SearchbarWrap>
+        <SearchbarForm onSubmit={this.handleSubmit}>
+          <SearchbarButton type="submit">
+            <SearchbarSpan></SearchbarSpan>
+          </SearchbarButton>
 
-        <SearchbarInput
-          id="searchInput"
-          type="text"
-          autoComplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-          value={searchQuery}
-          onChange={handleChange}
-        />
-      </SearchbarForm>
-    </SearchbarWrap>
-  );
-};
-
-export default Searchbar;
+          <SearchbarInput
+            id="searchInput"
+            type="text"
+            autoComplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+            value={this.state.query}
+            onChange={this.handleChange}
+          />
+        </SearchbarForm>
+      </SearchbarWrap>
+    );
+  }
+}
