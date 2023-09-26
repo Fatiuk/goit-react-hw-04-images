@@ -4,10 +4,11 @@ import { ModalOverlay, ModalWrap } from './Modal.styled';
 
 const modalRoot = document.querySelector('#modal-root');
 
-const Modal = ({ largeImageURL, tags }) => {
+const Modal = ({ largeImageURL, tags, onClose }) => {
   useEffect(() => {
     document.documentElement.style.overflowY = 'hidden';
     document.addEventListener('keydown', handleKeyClose);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -15,17 +16,18 @@ const Modal = ({ largeImageURL, tags }) => {
       document.documentElement.style.overflowY = 'auto';
       document.removeEventListener('keydown', handleKeyClose);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleKeyClose = event => {
     if (event.key === 'Escape' || event.key === ' ') {
-      this.props.onClose();
+      onClose();
     }
   };
 
   const handleOverlayClick = event => {
     if (event.currentTarget === event.target) {
-      this.props.onClose();
+      onClose();
     }
   };
 
